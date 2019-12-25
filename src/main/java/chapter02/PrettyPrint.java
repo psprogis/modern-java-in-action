@@ -7,9 +7,9 @@ public class PrettyPrint {
 
     public static void main(String[] args) {
         List<Apple> inventory = Arrays.asList(
-            new Apple(80, "green"),
-            new Apple(110, "green"),
-            new Apple(120, "red")
+            new Apple(80, Color.GREEN),
+            new Apple(155, Color.GREEN),
+            new Apple(120, Color.RED)
         );
 
         prettyPrintApple(inventory, new AppleFancyFormatter());
