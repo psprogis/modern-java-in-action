@@ -31,5 +31,34 @@ public class TraderPractice {
                     .collect(Collectors.toList());
 
         System.out.println(query1);
+
+        // What are all the unique cities where the traders work?
+        List<String> cities = transactions.stream()
+            .map(transaction -> transaction.getTrader().getCity())
+            .distinct()
+            .collect(Collectors.toList());
+
+        System.out.println(cities);
+
+        // Find all traders from Cambridge and sort them by name.
+        List<Trader> tradersFromCambridge = transactions.stream()
+            .map(transaction -> transaction.getTrader())
+            .filter(trader -> trader.getCity().equals("Cambridge"))
+            .distinct()
+            .sorted(comparing(Trader::getName))
+            .collect(Collectors.toList());
+
+        System.out.println(tradersFromCambridge);
+
+        // Return a string of all traders’ names sorted alphabetically.
+        String traderNames = transactions.stream()
+            .map(transaction -> transaction.getTrader().getName())
+            .distinct()
+            .sorted()
+            .collect(Collectors.joining());
+//            .reduce("", (n1, n2) -> n1 + n2);
+
+
+        System.out.println(traderNames);
     }
 }
