@@ -3,6 +3,7 @@ package chapter05;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
@@ -35,6 +36,7 @@ public class TraderPractice {
         // What are all the unique cities where the traders work?
         List<String> cities = transactions.stream()
             .map(transaction -> transaction.getTrader().getCity())
+         // .collect(toSet())
             .distinct()
             .collect(Collectors.toList());
 
@@ -56,9 +58,34 @@ public class TraderPractice {
             .distinct()
             .sorted()
             .collect(Collectors.joining());
-//            .reduce("", (n1, n2) -> n1 + n2);
-
+         // .reduce("", (n1, n2) -> n1 + n2);
 
         System.out.println(traderNames);
+
+        // Are any traders based in Milan?
+        boolean areAnyTradersFromMilan = transactions.stream()
+            .anyMatch(transaction -> transaction.getTrader().getCity().equals("Milan"));
+
+        System.out.println(areAnyTradersFromMilan);
+
+        // Print the values of all transactions from the traders living in Cambridge.
+        transactions.stream()
+                    .filter(transaction -> transaction.getTrader().getCity().equals("Cambridge"))
+                    .map(Transaction::getValue)
+                    .forEach(System.out::println);
+                 // .forEach(transaction -> System.out.println(transaction.getValue()));
+
+        // What’s the highest value of all the transactions?
+        int highestValue = transactions.stream()
+                    .map(Transaction::getValue)
+                    .reduce(0, Integer::max);
+
+        System.out.println(highestValue);
+
+        // Find the transaction with the smallest value.
+        Optional<Transaction> smallestTransaction = transactions.stream()
+            .min(comparing(Transaction::getValue));
+
+        System.out.println(smallestTransaction.map(String::valueOf).orElse("no transactions found."));
     }
 }
